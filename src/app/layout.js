@@ -1,7 +1,7 @@
-
+import './styles/globals.sass'
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body >
         {children}
       </body>
