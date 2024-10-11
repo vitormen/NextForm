@@ -1,9 +1,12 @@
-import Form from '../app/components/Form'
-
-export default function Home() {
+import Form from './components/Form';
+import FormDataComponent from './components/FormDataComponent';
+ 
+export default function HomePage() {
   return (
-    <div>
+    <main>
       <Form />
-    </div>
+      <FormDataComponent />
+    </main>
   );
 }
+ 
