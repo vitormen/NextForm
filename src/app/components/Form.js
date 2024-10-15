@@ -1,99 +1,107 @@
 "use client";
 
-import { useState } from 'react';
+import { Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup'; 
 
 const Form = () => {
-  const [nomeCompleto, setNomeCompleto] = useState('');
-  const [email, setEmail] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [naturalidade, setNaturalidade] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [sucesso, setSucesso] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Dados enviados:', { nomeCompleto, email, dataNascimento, naturalidade, telefone, sexo });
-    setSucesso(true);
-    setNomeCompleto('');
-    setEmail('');
-    setDataNascimento('');
-    setNaturalidade('');
-    setTelefone('');
-    setSexo('');
-  };
+ 
+  const validationSchema = Yup.object({
+    nomeCompleto: Yup.string().required('Nome completo é obrigatório'),
+    email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
+    dataNascimento: Yup.date().required('Data de nascimento é obrigatória'),
+    naturalidade: Yup.string().required('Naturalidade é obrigatória'),
+    telefone: Yup.string().required('Telefone é obrigatório'),
+    sexo: Yup.string().required('Sexo é obrigatório'),
+  });
 
   return (
     <div className="form-container">
-        <h1>formulário</h1>
-      {sucesso && <p className="success-message">Dados enviados com sucesso!</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="inline-fields">
-          <label>
-            Nome Completo:
-            <input
-              type="text"
-              value={nomeCompleto}
-              onChange={(e) => setNomeCompleto(e.target.value)}
-              placeholder="Digite seu nome completo"
-              required
-            />
-          </label>
-          <label>
-            E-mail:
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Digite seu e-mail"
-              required
-            />
-          </label>
-        </div>
-        <label>
-          Data de Nascimento:
-          <input
-            type="date"
-            value={dataNascimento}
-            onChange={(e) => setDataNascimento(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Naturalidade:
-          <input
-            type="text"
-            value={naturalidade}
-            onChange={(e) => setNaturalidade(e.target.value)}
-            placeholder="Digite sua naturalidade"
-            required
-          />
-        </label>
-        <label>
-          Telefone:
-          <input
-            type="tel"
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-            placeholder="Digite seu telefone"
-            required
-          />
-        </label>
-        <label>
-          Sexo:
-          <select
-            value={sexo}
-            onChange={(e) => setSexo(e.target.value)}
-            required
-          >
-            <option value="">Selecione</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-            <option value="outro">Outro</option>
-          </select>
-        </label>
-        <button type="submit">Enviar</button>
-      </form>
+      <h1>Formulário</h1>
+
+      <Formik
+        initialValues={{
+          nomeCompleto: '',
+          email: '',
+          dataNascimento: '',
+          naturalidade: '',
+          telefone: '',
+          sexo: '',
+        }}
+        validationSchema={validationSchema} 
+        onSubmit={(values, { resetForm }) => {
+          console.log('Dados enviados:', values);
+          alert('Dados enviados com sucesso!');
+          resetForm(); 
+        }}
+      >
+        {({ isSubmitting }) => (
+          <form>
+            <div className="inline-fields">
+              <label>
+                Nome Completo:
+                <Field
+                  type="text"
+                  name="nomeCompleto"
+                  placeholder="Digite seu nome completo"
+                />
+                
+                <ErrorMessage name="nomeCompleto" component="div" className="error" />
+              </label>
+
+              <label>
+                E-mail:
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Digite seu e-mail"
+                />
+                <ErrorMessage name="email" component="div" className="error" />
+              </label>
+            </div>
+
+            <label>
+              Data de Nascimento:
+              <Field type="date" name="dataNascimento" />
+              <ErrorMessage name="dataNascimento" component="div" className="error" />
+            </label>
+
+            <label>
+              Naturalidade:
+              <Field
+                type="text"
+                name="naturalidade"
+                placeholder="Digite sua naturalidade"
+              />
+              <ErrorMessage name="naturalidade" component="div" className="error" />
+            </label>
+
+            <label>
+              Telefone:
+              <Field
+                type="tel"
+                name="telefone"
+                placeholder="Digite seu telefone"
+              />
+              <ErrorMessage name="telefone" component="div" className="error" />
+            </label>
+
+            <label>
+              Sexo:
+              <Field as="select" name="sexo">
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+              </Field>
+              <ErrorMessage name="sexo" component="div" className="error" />
+            </label>
+
+            <button type="submit" disabled={isSubmitting}>
+              Enviar
+            </button>
+          </form>
+        )}
+      </Formik>
     </div>
   );
 };
