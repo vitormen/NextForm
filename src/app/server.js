@@ -2,7 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Query {
-    formData: FormData
+    formDataList: [FormData!]!
   }
 
   type FormData {
@@ -17,14 +17,24 @@ const typeDefs = gql`
 
 const mocks = {
   Query: () => ({
-    formData: () => ({
-      nomeCompleto: "vitor menezes",
-      email: "vitor@example.com",
-      dataNascimento: "2001-05-19",
-      naturalidade: "Brasileiro",
-      telefone: "11-987654321",
-      sexo: "masculino",
-    }),
+    formDataList: () => [
+      {
+        nomeCompleto: "Vitor Menezes",
+        email: "vitor@example.com",
+        dataNascimento: "2001-05-19",
+        naturalidade: "Brasileiro",
+        telefone: "11-987654321",
+        sexo: "masculino",
+      },
+      {
+        nomeCompleto: "Maria Silva",
+        email: "maria.silva@example.com",
+        dataNascimento: "1995-07-10",
+        naturalidade: "Brasileira",
+        telefone: "21-987654321",
+        sexo: "feminino",
+      },
+    ],
   }),
 };
 
