@@ -1,40 +1,31 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Form from './Form';
 
 describe('Form Component', () => {
-  test('renders form and submits successfully', () => {
+
+  beforeAll(() => {
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+  });
+
+  test('renders form and submits successfully', async () => {
     render(<Form />);
 
-    expect(screen.getByLabelText(/Nome Completo/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Data de Nascimento/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Naturalidade/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Telefone/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Sexo/i)).toBeInTheDocument(); 
+    const user = userEvent.setup();
 
-    fireEvent.change(screen.getByLabelText(/Nome Completo/i), {
-      target: { value: 'vitor menezes' },
-    });
-    fireEvent.change(screen.getByLabelText(/E-mail/i), {
-      target: { value: 'vitor.menezes@test.com' },
-    });
-    fireEvent.change(screen.getByLabelText(/Data de Nascimento/i), {
-      target: { value: '2001-05-19' },
-    });
-    fireEvent.change(screen.getByLabelText(/Naturalidade/i), {
-      target: { value: 'Brsileiro' },
-    });
-    fireEvent.change(screen.getByLabelText(/Telefone/i), {
-      target: { value: '(88) 91234-5678' },
-    });
-    fireEvent.change(screen.getByLabelText(/Sexo/i), {
-      target: { value: 'masculino' },
-    });
 
-    fireEvent.click(screen.getByRole('button', { name: /Enviar/i }));
+    await user.type(screen.getByLabelText(/Nome Completo/i), 'vitor menezes');
+    await user.type(screen.getByLabelText(/E-mail/i), 'vitor.menezes@test.com');
+    await user.type(screen.getByLabelText(/Data de Nascimento/i), '2001-05-19');
+    await user.type(screen.getByLabelText(/Naturalidade/i), 'Brasileiro');
+    await user.type(screen.getByLabelText(/Telefone/i), '(88) 91234-5678');
+    await user.selectOptions(screen.getByLabelText(/Sexo/i), 'masculino');
 
-    expect(screen.getByText(/Dados enviados com sucesso!/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Enviar/i }));
+
+    expect(window.alert).toHaveBeenCalledWith('Dados enviados com sucesso!');
 
     expect(screen.getByLabelText(/Nome Completo/i).value).toBe('');
     expect(screen.getByLabelText(/E-mail/i).value).toBe('');
@@ -42,5 +33,10 @@ describe('Form Component', () => {
     expect(screen.getByLabelText(/Naturalidade/i).value).toBe('');
     expect(screen.getByLabelText(/Telefone/i).value).toBe('');
     expect(screen.getByLabelText(/Sexo/i).value).toBe('');
+  });
+
+  
+  afterAll(() => {
+    window.alert.mockRestore();
   });
 });

@@ -4,7 +4,6 @@ import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'; 
 
 const Form = () => {
- 
   const validationSchema = Yup.object({
     nomeCompleto: Yup.string().required('Nome completo é obrigatório'),
     email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
@@ -29,13 +28,12 @@ const Form = () => {
         }}
         validationSchema={validationSchema} 
         onSubmit={(values, { resetForm }) => {
-          console.log('Dados enviados:', values);
           alert('Dados enviados com sucesso!');
-          resetForm(); 
+          resetForm();
         }}
       >
-        {({ isSubmitting }) => (
-          <form>
+        {({ isSubmitting, handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
             <div className="inline-fields">
               <label>
                 Nome Completo:
@@ -44,7 +42,6 @@ const Form = () => {
                   name="nomeCompleto"
                   placeholder="Digite seu nome completo"
                 />
-                
                 <ErrorMessage name="nomeCompleto" component="div" className="error" />
               </label>
 
