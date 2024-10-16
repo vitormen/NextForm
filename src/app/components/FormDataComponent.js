@@ -2,9 +2,9 @@
 
 import { useQuery, gql } from '@apollo/client';
 
-const GET_FORM_DATA = gql`
-  query GetFormData {
-    formData {
+const GET_FORM_DATA_LIST = gql`
+  query GetFormDataList {
+    formDataList {
       nomeCompleto
       email
       dataNascimento
@@ -16,7 +16,7 @@ const GET_FORM_DATA = gql`
 `;
 
 const FormDataComponent = () => {
-  const { loading, error, data } = useQuery(GET_FORM_DATA, {fetchPolicy:"no-cache",});
+  const { loading, error, data } = useQuery(GET_FORM_DATA_LIST, { fetchPolicy: "no-cache" });
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro: {error.message}</p>;
@@ -24,12 +24,17 @@ const FormDataComponent = () => {
   return (
     <div>
       <h1>Dados do Formulário</h1>
-      <p><strong>Nome Completo:</strong> {data.formData.nomeCompleto}</p>
-      <p><strong>Email:</strong> {data.formData.email}</p>
-      <p><strong>Data de Nascimento:</strong> {data.formData.dataNascimento}</p>
-      <p><strong>Naturalidade:</strong> {data.formData.naturalidade}</p>
-      <p><strong>Telefone:</strong> {data.formData.telefone}</p>
-      <p><strong>Sexo:</strong> {data.formData.sexo}</p>
+      {data.formDataList.map((formData, index) => (
+        <div key={index}>
+          <p><strong>Nome Completo:</strong> {formData.nomeCompleto}</p>
+          <p><strong>Email:</strong> {formData.email}</p>
+          <p><strong>Data de Nascimento:</strong> {formData.dataNascimento}</p>
+          <p><strong>Naturalidade:</strong> {formData.naturalidade}</p>
+          <p><strong>Telefone:</strong> {formData.telefone}</p>
+          <p><strong>Sexo:</strong> {formData.sexo}</p>
+          <hr />
+        </div>
+      ))}
     </div>
   );
 };
