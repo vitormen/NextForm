@@ -2,6 +2,7 @@
 
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'; 
+import axios from 'axios';
 
 const Form = () => {
   const validationSchema = Yup.object({
@@ -27,9 +28,14 @@ const Form = () => {
           sexo: '',
         }}
         validationSchema={validationSchema} 
-        onSubmit={(values, { resetForm }) => {
-          alert('Dados enviados com sucesso!');
-          resetForm();
+        onSubmit={async (values, { resetForm }) => {
+          try {
+            await axios.post('http://localhost:3001/formDataList', values);
+            alert('Dados enviados com sucesso!');
+            resetForm();
+          } catch (error) {
+            alert('Erro ao enviar os dados.');
+          }
         }}
       >
         {({ isSubmitting, handleSubmit }) => (
@@ -94,7 +100,7 @@ const Form = () => {
             </label>
 
             <button type="submit" disabled={isSubmitting}>
-              Enviar
+              {isSubmitting ? 'Enviando...' : 'Enviar'}
             </button>
           </form>
         )}
