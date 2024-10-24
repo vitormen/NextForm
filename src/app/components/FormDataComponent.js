@@ -43,7 +43,7 @@ const FormDataComponent = () => {
           ))}
         </div>
       ) : (
-        <p>Nenhum dado disponível.</p> // Mensagem alternativa quando não há dados
+        <p>Nenhum dado disponível.</p>
       )}
     </section>
   );
