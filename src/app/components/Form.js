@@ -40,64 +40,66 @@ const Form = () => {
       >
         {({ isSubmitting, handleSubmit }) => (
           <form onSubmit={handleSubmit}>
+            <label>
+              Nome Completo:
+              <Field
+                type="text"
+                name="nomeCompleto"
+                placeholder="Digite seu nome completo"
+              />
+              <ErrorMessage name="nomeCompleto" component="div" className="error" />
+            </label>
+
+            <label>
+              E-mail:
+              <Field
+                type="email"
+                name="email"
+                placeholder="Digite seu e-mail"
+              />
+              <ErrorMessage name="email" component="div" className="error" />
+            </label>
+
             <div className="inline-fields">
               <label>
-                Nome Completo:
+                Naturalidade:
                 <Field
                   type="text"
-                  name="nomeCompleto"
-                  placeholder="Digite seu nome completo"
+                  name="naturalidade"
+                  placeholder="Digite sua naturalidade"
                 />
-                <ErrorMessage name="nomeCompleto" component="div" className="error" />
+                <ErrorMessage name="naturalidade" component="div" className="error" />
               </label>
 
-              <label>
-                E-mail:
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="Digite seu e-mail"
-                />
-                <ErrorMessage name="email" component="div" className="error" />
+              <label className="data-nascimento">
+                Data de Nascimento:
+                <Field type="date" name="dataNascimento" />
+                <ErrorMessage name="dataNascimento" component="div" className="error" />
               </label>
             </div>
 
-            <label>
-              Data de Nascimento:
-              <Field type="date" name="dataNascimento" />
-              <ErrorMessage name="dataNascimento" component="div" className="error" />
-            </label>
+            <div className="inline-fields">
+              <label>
+                Telefone:
+                <Field
+                  type="tel"
+                  name="telefone"
+                  placeholder="Digite seu telefone"
+                />
+                <ErrorMessage name="telefone" component="div" className="error" />
+              </label>
 
-            <label>
-              Naturalidade:
-              <Field
-                type="text"
-                name="naturalidade"
-                placeholder="Digite sua naturalidade"
-              />
-              <ErrorMessage name="naturalidade" component="div" className="error" />
-            </label>
-
-            <label>
-              Telefone:
-              <Field
-                type="tel"
-                name="telefone"
-                placeholder="Digite seu telefone"
-              />
-              <ErrorMessage name="telefone" component="div" className="error" />
-            </label>
-
-            <label>
-              Sexo:
-              <Field as="select" name="sexo">
-                <option value="">Selecione</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-                <option value="outro">Outro</option>
-              </Field>
-              <ErrorMessage name="sexo" component="div" className="error" />
-            </label>
+              <label>
+                Sexo:
+                <Field as="select" name="sexo">
+                  <option value="">Selecione</option>
+                  <option value="masculino">Masculino</option>
+                  <option value="feminino">Feminino</option>
+                  <option value="outro">Outro</option>
+                </Field>
+                <ErrorMessage name="sexo" component="div" className="error" />
+              </label>
+            </div>
 
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Enviando...' : 'Enviar'}
