@@ -24,21 +24,27 @@ const FormDataComponent = () => {
 
   return (
     <section className={styles.section}>
-      <h1>Dados do Formulário</h1>
-      {data.formDataList.map((formData, index) => (
-        <article key={index} className={styles.article}>
-          <header>
-            <h2>Nome Completo: {formData.nomeCompleto}</h2>
-          </header>
-          <ul>
-            <li><span className={styles.label}>Email:</span> {formData.email}</li>
-            <li><span className={styles.label}>Data de Nascimento:</span> {formData.dataNascimento}</li>
-            <li><span className={styles.label}>Naturalidade:</span> {formData.naturalidade}</li>
-            <li><span className={styles.label}>Telefone:</span> {formData.telefone}</li>
-            <li><span className={styles.label}>Sexo:</span> {formData.sexo}</li>
-          </ul>
-        </article>
-      ))}
+      {data && data.formDataList.length > 0 ? (
+        <div>
+          <h1>Dados do Formulário</h1>
+          {data.formDataList.map((formData, index) => (
+            <article key={index} className={styles.article}>
+              <header>
+                <h2>Nome Completo: {formData.nomeCompleto}</h2>
+              </header>
+              <ul>
+                <li><span className={styles.label}>Email:</span> {formData.email}</li>
+                <li><span className={styles.label}>Data de Nascimento:</span> {formData.dataNascimento}</li>
+                <li><span className={styles.label}>Naturalidade:</span> {formData.naturalidade}</li>
+                <li><span className={styles.label}>Telefone:</span> {formData.telefone}</li>
+                <li><span className={styles.label}>Sexo:</span> {formData.sexo}</li>
+              </ul>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p>Nenhum dado disponível.</p> // Mensagem alternativa quando não há dados
+      )}
     </section>
   );
 };
