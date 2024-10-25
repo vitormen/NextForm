@@ -1,6 +1,7 @@
-"use client"; 
+"use client";
 
 import { useQuery, gql } from '@apollo/client';
+import styles from './FormDataComponent.module.sass';
 
 const GET_FORM_DATA_LIST = gql`
   query GetFormDataList {
@@ -22,20 +23,29 @@ const FormDataComponent = () => {
   if (error) return <p>Erro: {error.message}</p>;
 
   return (
-    <div>
-      <h1>Dados do Formulário</h1>
-      {data.formDataList.map((formData, index) => (
-        <div key={index}>
-          <p><strong>Nome Completo:</strong> {formData.nomeCompleto}</p>
-          <p><strong>Email:</strong> {formData.email}</p>
-          <p><strong>Data de Nascimento:</strong> {formData.dataNascimento}</p>
-          <p><strong>Naturalidade:</strong> {formData.naturalidade}</p>
-          <p><strong>Telefone:</strong> {formData.telefone}</p>
-          <p><strong>Sexo:</strong> {formData.sexo}</p>
-          <hr />
+    <section className={styles.section}>
+      {data && data.formDataList.length > 0 ? (
+        <div>
+          <h1>Dados do Formulário</h1>
+          {data.formDataList.map((formData, index) => (
+            <article key={index} className={styles.article}>
+              <header>
+                <h2>Nome Completo: {formData.nomeCompleto}</h2>
+              </header>
+              <ul>
+                <li><span className={styles.label}>Email:</span> {formData.email}</li>
+                <li><span className={styles.label}>Data de Nascimento:</span> {formData.dataNascimento}</li>
+                <li><span className={styles.label}>Naturalidade:</span> {formData.naturalidade}</li>
+                <li><span className={styles.label}>Telefone:</span> {formData.telefone}</li>
+                <li><span className={styles.label}>Sexo:</span> {formData.sexo}</li>
+              </ul>
+            </article>
+          ))}
         </div>
-      ))}
-    </div>
+      ) : (
+        <p>Nenhum dado disponível.</p>
+      )}
+    </section>
   );
 };
 

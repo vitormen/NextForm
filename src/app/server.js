@@ -1,4 +1,11 @@
 const { ApolloServer, gql } = require('apollo-server');
+const fs = require('fs');
+const path = require('path');
+
+const getFormDataList = () => {
+  const data = fs.readFileSync(path.resolve(__dirname, '../../db.json'), 'utf-8');
+  return JSON.parse(data).formDataList;
+};
 
 const typeDefs = gql`
   type Query {
@@ -15,34 +22,18 @@ const typeDefs = gql`
   }
 `;
 
-const mocks = {
-  Query: () => ({
-    formDataList: () => [
-      {
-        nomeCompleto: "Vitor Menezes",
-        email: "vitor@example.com",
-        dataNascimento: "2001-05-19",
-        naturalidade: "Brasileiro",
-        telefone: "11-987654321",
-        sexo: "masculino",
-      },
-      {
-        nomeCompleto: "Maria Silva",
-        email: "maria.silva@example.com",
-        dataNascimento: "1995-07-10",
-        naturalidade: "Brasileira",
-        telefone: "21-987654321",
-        sexo: "feminino",
-      },
-    ],
-  }),
+
+const resolvers = {
+  Query: {
+    formDataList: () => getFormDataList(),
+  },
 };
 
 const server = new ApolloServer({
   typeDefs,
-  mocks,
+  resolvers,
 });
 
 server.listen().then(({ url }) => {
-  console.log(`Servidor rodando em ${url}`);
+  console.log(`🚀 Servidor rodando em ${url}`);
 });
