@@ -1,12 +1,17 @@
-import Form from './components/Form';
-import FormDataComponent from './components/FormDataComponent';
- 
+import Footer from './components/footer/Footer';
+import FormComponent from './components/formComponent/FormComponent';
+import HomePageImg from './components/homePage/HomePageImg';
+import NavBar from './components/navbar/NavBar';
+
 export default function HomePage() {
   return (
-    <main>
-      <Form />
-      <FormDataComponent />
+    <main >
+      <NavBar />
+      <div className="content">
+        <HomePageImg /> 
+        <FormComponent /> 
+      </div>
+      <Footer />
     </main>
   );
 }
- 
